@@ -8,21 +8,15 @@
 <meta name="theme-color" content="#0e1014">
 <script>document.documentElement.classList.add('js');</script>
 <style>
-  /* ==========================================================
-     COLOR PALETTE — edit the values below to restyle the page.
-     Dark is the default; the light set applies automatically
-     when the visitor's device is in light mode.
-     To lock one theme, delete the other block.
-     ========================================================== */
   :root {
     --bg:          #0e1014;   /* page background */
     --surface:     #151820;   /* cards */
-    --surface-2:   #1b1f29;   /* nested cards */
-    --border:      #262b37;   /* lines and outlines */
+    --surface-2:   #1d212c;   /* skill tags, nested elements */
+    --border:      #272c38;   /* lines and outlines */
     --text:        #e8eaf0;   /* main text */
     --muted:       #8e96a6;   /* secondary text */
     --accent:      #6ea8fe;   /* links, highlights, markers */
-    --accent-soft: rgba(110, 168, 254, .12);  /* tag background, active nav */
+    --accent-soft: rgba(110, 168, 254, .12);  /* active nav, badges */
     --glow:        rgba(110, 168, 254, .10);  /* soft light at top of page */
     --shadow:      0 8px 24px rgba(0, 0, 0, .28);
 
@@ -35,8 +29,8 @@
     :root {
       --bg:          #f5f6f8;
       --surface:     #ffffff;
-      --surface-2:   #f1f3f6;
-      --border:      #e0e3ea;
+      --surface-2:   #f0f2f6;
+      --border:      #dfe2e9;
       --text:        #1a1e26;
       --muted:       #5d6676;
       --accent:      #2563eb;
@@ -48,7 +42,7 @@
 
   /* ---------- base ---------- */
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 72px; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body {
     background: var(--bg);
     color: var(--text);
@@ -87,16 +81,17 @@
   .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
 
   /* ---------- hero ---------- */
-  .hero { padding: clamp(40px, 8vw, 84px) 0 clamp(26px, 4vw, 42px); }
+  .hero { padding: clamp(40px, 8vw, 84px) 0 clamp(26px, 4vw, 42px); scroll-margin-top: 60px; }
   h1 { font-size: clamp(2.1rem, 6.5vw, 3.4rem); line-height: 1.05; letter-spacing: -.035em; font-weight: 750; }
   .role { margin-top: 12px; font-size: clamp(1.05rem, 2.4vw, 1.3rem); color: var(--accent); font-weight: 500; display: flex; align-items: center; gap: 12px; }
   .role::after { content: ""; height: 1px; width: 56px; background: linear-gradient(90deg, var(--accent), transparent); }
   .hero-lead { margin-top: 14px; max-width: 56ch; color: var(--muted); }
+
   .contact { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 8px; }
   .chip-link {
     display: inline-flex; align-items: center; gap: 9px;
     padding: 9px 13px; border: 1px solid var(--border); background: var(--surface);
-    border-radius: 10px; font-size: 13.5px; color: var(--text); cursor: pointer;
+    border-radius: 10px; font-size: 13.5px; color: var(--text); cursor: pointer; line-height: 1.2;
     transition: border-color .2s, transform .2s, background .2s;
   }
   .chip-link .icon { color: var(--accent); }
@@ -107,11 +102,22 @@
   .chip-link.static { cursor: default; }
   .chip-link.static:hover { border-color: var(--border); transform: none; }
 
+  /* languages (compact, under contact) */
+  .langs { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .lang {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 7px 12px; border-radius: 10px; font-size: 13px; line-height: 1.2;
+    border: 1px dashed var(--border); color: var(--muted);
+  }
+  .lang b { color: var(--text); font-weight: 600; }
+  .dots { display: inline-flex; gap: 3px; }
+  .dots i { width: 12px; height: 4px; border-radius: 2px; background: var(--border); }
+  .dots i.on { background: var(--accent); }
+
   /* ---------- layout ---------- */
   .layout { display: grid; gap: 20px; padding-bottom: 28px; }
-  .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
 
-  section.block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
+  section.block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); scroll-margin-top: 64px; }
   .block h2 { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 650; letter-spacing: -.005em; margin-bottom: 18px; }
   .block h2 .num { font-family: var(--font-mono); font-size: 11.5px; color: var(--accent); background: var(--accent-soft); padding: 3px 7px; border-radius: 6px; font-weight: 500; }
   .block h2::after { content: ""; flex: 1; height: 1px; background: var(--border); }
@@ -121,17 +127,22 @@
   .profile li { position: relative; padding-left: 20px; }
   .profile li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 2px; border-radius: 2px; background: var(--accent); }
 
-  /* skills */
-  .skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .skill { position: relative; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 15px 15px 16px; overflow: hidden; transition: border-color .2s, transform .2s; }
-  .skill::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); transform: scaleY(0); transform-origin: top; transition: transform .3s ease; }
-  .skill:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); transform: translateY(-2px); }
-  .skill:hover::before { transform: scaleY(1); }
-  .skill h3 { font-size: 13px; font-weight: 600; margin-bottom: 10px; letter-spacing: .01em; }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag { font-size: 12px; padding: 3px 9px; border-radius: 6px; background: var(--accent-soft); border: 1px solid transparent; transition: border-color .2s; }
-  .tag:hover { border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
-  .skill.wide { grid-column: 1 / -1; }
+  /* skills: label on the left, tags on the right */
+  .skills { display: grid; }
+  .skill {
+    display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 8px 24px; align-items: start;
+    padding: 15px 0; border-top: 1px solid var(--border);
+  }
+  .skill:first-child { border-top: 0; padding-top: 0; }
+  .skill:last-child { padding-bottom: 0; }
+  .skill h3 { font-size: 13.5px; font-weight: 600; padding-top: 5px; line-height: 1.35; }
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag {
+    font-size: 13px; line-height: 1.3; padding: 4px 11px; border-radius: 7px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    transition: border-color .2s, color .2s, transform .2s;
+  }
+  .tag:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
 
   /* timeline */
   .timeline { position: relative; display: grid; gap: 28px; padding-left: 24px; }
@@ -146,23 +157,8 @@
   .job li { position: relative; padding-left: 16px; color: var(--muted); }
   .job li::before { content: ""; position: absolute; left: 0; top: .66em; width: 5px; height: 5px; border-radius: 1px; background: var(--border); }
 
-  /* languages */
-  .lang + .lang { margin-top: 16px; }
-  .lang-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
-  .lang-top b { font-weight: 600; font-size: 14px; }
-  .lang-top span { font-size: 12px; color: var(--muted); }
-  .dots { display: flex; gap: 5px; }
-  .dots i { flex: 1; height: 5px; border-radius: 3px; background: var(--border); transform-origin: left; }
-  .dots i.on { background: var(--accent); }
-  .js .dots i { transform: scaleX(0); transition: transform .5s cubic-bezier(.2, .7, .2, 1); }
-  .js .visible .dots i { transform: scaleX(1); }
-  .js .visible .dots i:nth-child(2) { transition-delay: .08s; }
-  .js .visible .dots i:nth-child(3) { transition-delay: .16s; }
-  .js .visible .dots i:nth-child(4) { transition-delay: .24s; }
-  .js .visible .dots i:nth-child(5) { transition-delay: .32s; }
-
   /* courses */
-  .courses { list-style: none; display: grid; gap: 13px; }
+  .courses { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px 28px; }
   .courses li { padding-left: 14px; border-left: 2px solid var(--border); font-size: 13.5px; line-height: 1.4; transition: border-color .2s; }
   .courses li:hover { border-left-color: var(--accent); }
   .courses small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
@@ -203,18 +199,20 @@
   .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
   /* ---------- animations ---------- */
-  .js .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s cubic-bezier(.2, .7, .2, 1); transition-delay: var(--d, 0s); }
+  .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s cubic-bezier(.2, .7, .2, 1); }
   .js .reveal.visible { opacity: 1; transform: none; }
   .hero > * { animation: rise .7s cubic-bezier(.2, .7, .2, 1) both; }
   .hero > *:nth-child(2) { animation-delay: .07s; }
   .hero > *:nth-child(3) { animation-delay: .14s; }
   .hero > *:nth-child(4) { animation-delay: .21s; }
+  .hero > *:nth-child(5) { animation-delay: .28s; }
   @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
   @keyframes pulse { 0% { box-shadow: 0 0 0 0 var(--accent-soft); } 70% { box-shadow: 0 0 0 8px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
 
   /* ---------- responsive ---------- */
   @media (max-width: 760px) {
-    .pair { grid-template-columns: minmax(0, 1fr); }
+    .skill { grid-template-columns: minmax(0, 1fr); gap: 9px; }
+    .skill h3 { padding-top: 0; color: var(--muted); font-size: 12.5px; text-transform: uppercase; letter-spacing: .08em; }
   }
   @media (max-width: 620px) {
     body { font-size: 14.5px; }
@@ -222,8 +220,13 @@
     .brand { display: none; }
     .links { width: 100%; justify-content: space-between; }
     section.block { padding: 18px 16px; }
-    .skills { grid-template-columns: minmax(0, 1fr); }
-    .contact .chip-link { flex: 1 1 100%; }
+    .contact { gap: 6px; margin-top: 22px; }
+    .chip-link { padding: 7px 10px; font-size: 12.5px; gap: 7px; border-radius: 9px; }
+    .chip-link .icon { width: 14px; height: 14px; }
+    .chip-link .copy { display: none; }
+    .langs { gap: 6px; margin-top: 8px; }
+    .lang { padding: 6px 10px; font-size: 12.5px; gap: 7px; border-radius: 9px; }
+    .dots i { width: 9px; }
     .top { right: 14px; bottom: 14px; }
   }
   @media (orientation: landscape) and (max-height: 480px) {
@@ -233,15 +236,13 @@
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .js .reveal { opacity: 1; transform: none; }
-    .js .dots i { transform: none; }
   }
   @media print {
     .nav, .top, .end, .toast { display: none; }
     body { background: #fff; color: #000; }
     body::before { display: none; }
-    section.block, .skill { border-color: #ccc; background: #fff; box-shadow: none; }
+    section.block { border-color: #ccc; background: #fff; box-shadow: none; }
     .js .reveal { opacity: 1; transform: none; }
-    .js .dots i { transform: none; }
   }
 </style>
 </head>
@@ -262,11 +263,10 @@
   <div class="nav-inner">
     <a class="brand" href="#top">H<span>.</span>Trachuk</a>
     <div class="links">
-      <a href="#profile">Profile</a>
-      <a href="#skills">Skills</a>
-      <a href="#experience">Experience</a>
-      <a href="#languages">Languages</a>
-      <a href="#courses">Courses</a>
+      <a href="#top" data-nav="profile" class="active">Profile</a>
+      <a href="#skills" data-nav="skills">Skills</a>
+      <a href="#experience" data-nav="experience">Experience</a>
+      <a href="#courses" data-nav="courses">Courses</a>
     </div>
   </div>
 </nav>
@@ -286,6 +286,10 @@
     <a class="chip-link" href="https://www.linkedin.com/in/trachukheorhii" target="_blank" rel="noopener"><svg class="icon"><use href="#i-in"/></svg>LinkedIn</a>
     <a class="chip-link" href="https://github.com/exLeute" target="_blank" rel="noopener"><svg class="icon"><use href="#i-gh"/></svg>GitHub</a>
   </div>
+  <div class="langs" aria-label="Languages">
+    <span class="lang"><b>Ukrainian</b>Native<span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></span>
+    <span class="lang"><b>English</b>C1<span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></span>
+  </div>
 </header>
 
 <main class="wrap layout">
@@ -302,23 +306,23 @@
   <section class="block reveal" id="skills">
     <h2><span class="num">02</span>Skills</h2>
     <div class="skills">
-      <div class="skill reveal" style="--d:.00s"><h3>Programming Languages</h3><div class="tags"><span class="tag">Python</span><span class="tag">SQL</span><span class="tag">C#</span><span class="tag">C</span></div></div>
-      <div class="skill reveal" style="--d:.05s"><h3>Backend Development</h3><div class="tags"><span class="tag">FastAPI</span><span class="tag">REST APIs</span><span class="tag">CRUD operations</span><span class="tag">ORM</span><span class="tag">Asynchronous programming basics</span></div></div>
-      <div class="skill reveal" style="--d:.00s"><h3>Databases</h3><div class="tags"><span class="tag">PostgreSQL</span><span class="tag">SQLite</span><span class="tag">Database design</span><span class="tag">Relationships</span><span class="tag">Indexes</span><span class="tag">Migrations</span></div></div>
-      <div class="skill reveal" style="--d:.05s"><h3>Authentication &amp; Security</h3><div class="tags"><span class="tag">JWT</span><span class="tag">OAuth2 basics</span><span class="tag">Session authentication</span><span class="tag">Password hashing</span><span class="tag">Permissions</span><span class="tag">CORS</span></div></div>
-      <div class="skill reveal" style="--d:.00s"><h3>API Development</h3><div class="tags"><span class="tag">OpenAPI/Swagger</span><span class="tag">Request and response handling</span><span class="tag">Serialization</span><span class="tag">Validation</span><span class="tag">Pagination</span><span class="tag">Filtering</span><span class="tag">Error handling</span></div></div>
-      <div class="skill reveal" style="--d:.05s"><h3>Testing</h3><div class="tags"><span class="tag">Pytest</span><span class="tag">unittest</span><span class="tag">API testing</span><span class="tag">Test cases</span><span class="tag">Fixtures</span><span class="tag">Mocking basics</span></div></div>
-      <div class="skill wide reveal"><h3>DevOps &amp; Tools</h3><div class="tags"><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Docker</span><span class="tag">Docker Compose</span><span class="tag">Linux</span><span class="tag">Bash basics</span><span class="tag">Virtual environments</span><span class="tag">pip</span><span class="tag">uv</span><span class="tag">Poetry</span></div></div>
-      <div class="skill reveal" style="--d:.00s"><h3>Web &amp; Integration</h3><div class="tags"><span class="tag">HTTP/HTTPS</span><span class="tag">JSON</span><span class="tag">Third-party API integration</span><span class="tag">Webhooks</span><span class="tag">Postman</span></div></div>
-      <div class="skill reveal" style="--d:.05s"><h3>Software Engineering</h3><div class="tags"><span class="tag">OOP</span><span class="tag">SOLID basics</span><span class="tag">Design patterns basics</span><span class="tag">Debugging</span><span class="tag">Logging</span><span class="tag">Code refactoring</span></div></div>
-      <div class="skill wide reveal"><h3>Documentation &amp; Collaboration</h3><div class="tags"><span class="tag">API documentation</span><span class="tag">Git workflows</span><span class="tag">Pull requests</span><span class="tag">Jira/Trello</span><span class="tag">Agile/Scrum</span></div></div>
+      <div class="skill"><h3>Programming Languages</h3><div class="tags"><span class="tag">Python</span><span class="tag">SQL</span><span class="tag">C#</span><span class="tag">C</span></div></div>
+      <div class="skill"><h3>Backend Development</h3><div class="tags"><span class="tag">FastAPI</span><span class="tag">REST APIs</span><span class="tag">CRUD operations</span><span class="tag">ORM</span><span class="tag">Asynchronous programming basics</span></div></div>
+      <div class="skill"><h3>Databases</h3><div class="tags"><span class="tag">PostgreSQL</span><span class="tag">SQLite</span><span class="tag">Database design</span><span class="tag">Relationships</span><span class="tag">Indexes</span><span class="tag">Migrations</span></div></div>
+      <div class="skill"><h3>Authentication &amp; Security</h3><div class="tags"><span class="tag">JWT</span><span class="tag">OAuth2 basics</span><span class="tag">Session authentication</span><span class="tag">Password hashing</span><span class="tag">Permissions</span><span class="tag">CORS</span></div></div>
+      <div class="skill"><h3>API Development</h3><div class="tags"><span class="tag">OpenAPI/Swagger</span><span class="tag">Request and response handling</span><span class="tag">Serialization</span><span class="tag">Validation</span><span class="tag">Pagination</span><span class="tag">Filtering</span><span class="tag">Error handling</span></div></div>
+      <div class="skill"><h3>Testing</h3><div class="tags"><span class="tag">Pytest</span><span class="tag">unittest</span><span class="tag">API testing</span><span class="tag">Test cases</span><span class="tag">Fixtures</span><span class="tag">Mocking basics</span></div></div>
+      <div class="skill"><h3>DevOps &amp; Tools</h3><div class="tags"><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Docker</span><span class="tag">Docker Compose</span><span class="tag">Linux</span><span class="tag">Bash basics</span><span class="tag">Virtual environments</span><span class="tag">pip</span><span class="tag">uv</span><span class="tag">Poetry</span></div></div>
+      <div class="skill"><h3>Web &amp; Integration</h3><div class="tags"><span class="tag">HTTP/HTTPS</span><span class="tag">JSON</span><span class="tag">Third-party API integration</span><span class="tag">Webhooks</span><span class="tag">Postman</span></div></div>
+      <div class="skill"><h3>Software Engineering</h3><div class="tags"><span class="tag">OOP</span><span class="tag">SOLID basics</span><span class="tag">Design patterns basics</span><span class="tag">Debugging</span><span class="tag">Logging</span><span class="tag">Code refactoring</span></div></div>
+      <div class="skill"><h3>Documentation &amp; Collaboration</h3><div class="tags"><span class="tag">API documentation</span><span class="tag">Git workflows</span><span class="tag">Pull requests</span><span class="tag">Jira/Trello</span><span class="tag">Agile/Scrum</span></div></div>
     </div>
   </section>
 
   <section class="block reveal" id="experience">
     <h2><span class="num">03</span>Work Experience</h2>
     <div class="timeline">
-      <article class="job current reveal">
+      <article class="job current">
         <div class="date mono">September 2023 – Present</div>
         <h3>Freelance Python Backend Development</h3>
         <ul>
@@ -329,7 +333,7 @@
           <li>Communicated with clients, clarified requirements, and delivered backend tasks independently.</li>
         </ul>
       </article>
-      <article class="job reveal">
+      <article class="job">
         <div class="date mono">January 2023 – September 2023</div>
         <h3>C# Unity Developer</h3>
         <div class="company">STELLARIUM.gaming</div>
@@ -344,30 +348,16 @@
     </div>
   </section>
 
-  <div class="pair">
-    <section class="block reveal" id="languages">
-      <h2><span class="num">04</span>Languages</h2>
-      <div class="lang">
-        <div class="lang-top"><b>Ukrainian</b><span>Native</span></div>
-        <div class="dots" role="img" aria-label="Ukrainian: native"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
-      </div>
-      <div class="lang">
-        <div class="lang-top"><b>English</b><span>Advanced · C1</span></div>
-        <div class="dots" role="img" aria-label="English: advanced, C1"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
-      </div>
-    </section>
-
-    <section class="block reveal" id="courses">
-      <h2><span class="num">05</span>Courses</h2>
-      <ul class="courses">
-        <li>FastAPI – The Complete Course 2026<small>Udemy</small></li>
-        <li>Fundamentals of Database Engineering<small>Udemy</small></li>
-        <li>The Complete SQL Bootcamp<small>Udemy</small></li>
-        <li>T-SQL Execution Plans, Indexes, Transactions, In-Memory OLTP<small>Udemy</small></li>
-        <li>Relational Database Design<small>Udemy</small></li>
-      </ul>
-    </section>
-  </div>
+  <section class="block reveal" id="courses">
+    <h2><span class="num">04</span>Courses</h2>
+    <ul class="courses">
+      <li>FastAPI – The Complete Course 2026<small>Udemy</small></li>
+      <li>Fundamentals of Database Engineering<small>Udemy</small></li>
+      <li>The Complete SQL Bootcamp<small>Udemy</small></li>
+      <li>T-SQL Execution Plans, Indexes, Transactions, In-Memory OLTP<small>Udemy</small></li>
+      <li>Relational Database Design<small>Udemy</small></li>
+    </ul>
+  </section>
 
 </main>
 
@@ -391,20 +381,15 @@
   var end = document.getElementById('end');
   var endVisible = false;
 
-  // back to top
+  /* ---------- back to top ---------- */
   function updateTop() {
     topBtn.classList.toggle('show', window.scrollY > 500 && !endVisible);
   }
-  var ticking = false;
-  window.addEventListener('scroll', function () {
-    if (!ticking) { requestAnimationFrame(function () { updateTop(); ticking = false; }); ticking = true; }
-  }, { passive: true });
   document.querySelectorAll('[data-top]').forEach(function (b) {
     b.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
   });
-  updateTop();
 
-  // click to copy
+  /* ---------- click to copy ---------- */
   var toast = document.getElementById('toast');
   var toastText = document.getElementById('toast-text');
   var toastTimer;
@@ -445,38 +430,91 @@
     });
   });
 
-  // reveal on scroll
+  /* ---------- section navigation ----------
+     The active link is computed from scroll position (not from
+     intersection events), so it can't flicker or skip sections.
+     While a nav click is scrolling, updates are paused. */
+  var order = ['profile', 'skills', 'experience', 'courses'];
+  var sections = order.map(function (id) { return document.getElementById(id); });
+  var links = {};
+  document.querySelectorAll('.links a').forEach(function (a) { links[a.getAttribute('data-nav')] = a; });
+  var activeId = null;
+  var locked = false, lockTimer;
+
+  function setActive(id) {
+    if (id === activeId) return;
+    activeId = id;
+    order.forEach(function (k) { links[k].classList.toggle('active', k === id); });
+    var a = links[id];
+    var box = a.parentNode;
+    if (box.scrollWidth > box.clientWidth) {
+      box.scrollTo({ left: a.offsetLeft - (box.clientWidth - a.offsetWidth) / 2, behavior: 'smooth' });
+    }
+  }
+  function currentSection() {
+    var doc = document.documentElement;
+    if (window.innerHeight + window.scrollY >= doc.scrollHeight - 4) return order[order.length - 1];
+    var y = window.scrollY + 110;
+    var id = order[0];
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i].offsetTop <= y) id = order[i];
+    }
+    return id;
+  }
+  function update() {
+    updateTop();
+    if (!locked) setActive(currentSection());
+  }
+  function unlock() {
+    if (!locked) return;
+    locked = false;
+    clearTimeout(lockTimer);
+    update();
+  }
+  function lock() {
+    locked = true;
+    clearTimeout(lockTimer);
+    lockTimer = setTimeout(unlock, 'onscrollend' in window ? 2500 : 1100);
+  }
+
+  order.forEach(function (id) {
+    links[id].addEventListener('click', function (e) {
+      e.preventDefault();
+      var top = id === 'profile' ? 0 : Math.max(0, document.getElementById(id).offsetTop - 64);
+      setActive(id);
+      lock();
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  });
+  // user takes over scrolling -> stop ignoring scroll updates
+  ['wheel', 'touchstart', 'keydown'].forEach(function (ev) {
+    window.addEventListener(ev, unlock, { passive: true });
+  });
+  window.addEventListener('scrollend', unlock);
+
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) { requestAnimationFrame(function () { update(); ticking = false; }); ticking = true; }
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  window.addEventListener('load', update);
+  update();
+
+  /* ---------- reveal on scroll ---------- */
   var items = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
     items.forEach(function (el) { io.observe(el); });
 
-    // hide floating button while the bottom one is on screen
+    // hide the floating button while the bottom one is on screen
     new IntersectionObserver(function (entries) {
       endVisible = entries[0].isIntersecting;
       updateTop();
     }).observe(end);
-
-    // active nav link
-    var links = document.querySelectorAll('.links a');
-    var map = {};
-    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
-    var so = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          links.forEach(function (a) { a.classList.remove('active'); });
-          if (map[e.target.id]) map[e.target.id].classList.add('active');
-        }
-      });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    Object.keys(map).forEach(function (id) {
-      var s = document.getElementById(id);
-      if (s) so.observe(s);
-    });
   } else {
     items.forEach(function (el) { el.classList.add('visible'); });
   }
